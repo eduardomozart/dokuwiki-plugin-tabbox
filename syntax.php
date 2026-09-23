@@ -147,8 +147,8 @@ class syntax_plugin_tabbox extends DokuWiki_Syntax_Plugin {
         $R->doc .= $R->_xmlEntities($name);
         $R->doc .= "</h$level>" . DOKU_LF;
         
-        // start a dummy section level div so nested plugins like 'include' don't close the tabboxtab early
-        $R->doc .= '<div class="level' . $level . '">' . DOKU_LF;
+        // start a section level wrapper so nested plugins like 'include' don't close the tabboxtab early
+        $R->section_open($level);
 
         $this->intab = true;
     }
@@ -161,7 +161,7 @@ class syntax_plugin_tabbox extends DokuWiki_Syntax_Plugin {
      */
     protected function _closeTab(Doku_Renderer_xhtml $R, $pos) {
         $R->finishSectionEdit($pos);
-        $R->doc .= DOKU_LF.'</div>'.DOKU_LF; // close level wrapper
+        $R->section_close(); // close level wrapper
         $R->doc .= DOKU_LF.'</div>'.DOKU_LF; // close tabboxtab
         $this->intab = false;
     }
